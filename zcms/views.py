@@ -99,9 +99,10 @@ def download_view(context, request):
 @view_config(context=Folder, name="clear_theme_cache")
 def clear_theme_cache():
     _templates_cache.clear()
+    return Response('ok')
 
 @view_config(context=Folder, name="clear_content_cache")
 def clear_content_cache():
     tmp_dir = tempfile.gettempdir() 
     os.system( 'rm -rf %s/zcmscache*' % tmp_dir ) 
-
+    return Response('ok')
