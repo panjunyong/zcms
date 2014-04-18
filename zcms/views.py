@@ -102,7 +102,8 @@ def clear_theme_cache():
     return Response('ok')
 
 @view_config(context=Folder, name="clear_content_cache")
-def clear_content_cache():
+def clear_content_cache(context, request):
     tmp_dir = tempfile.gettempdir() 
-    os.system( 'rm -rf %s/zcmscache*' % tmp_dir ) 
+    cache_name = 'zcmscache' + '-'.join(context.vpath.split('/'))
+    os.system( 'rm -rf %s/%s*' % (tmp_dir, cache_name) ) 
     return Response('ok')
