@@ -97,8 +97,15 @@ def download_view(context, request):
     return response
 
 @view_config(context=Folder, name="clear_theme_cache")
-def clear_theme_cache():
-    _templates_cache.clear()
+def clear_theme_cache(context, reqeust):
+    site = context.get_site()
+    theme_base = site.metadata.get('theme_base', '')
+    if theme_base.startswith('/'):
+        theme_base = 'http://127.0.0.1' + theme_base
+
+    for key in list(_templates_cache.keys()):
+        if key.startswith(theme_base):
+            del _templates_cache[key]
     return Response('ok')
 
 @view_config(context=Folder, name="clear_content_cache")
